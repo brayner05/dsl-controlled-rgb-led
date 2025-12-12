@@ -12,14 +12,6 @@ enum class OpCode {
   Jump      = 0x04,
 };
 
-/* 
-  OPERATION ARGUMENT
-  SLEEP     <DURATION>
-  RED       <INTENSITY>
-  GREEN     <INTENSITY>
-  BLUE      <INTENSITY>
-  JMP       <PC>
-*/
 
 static const uint16_t pattern[] = {
   0x10ff,         // RED 255
@@ -48,34 +40,22 @@ static void execute(uint16_t op) {
   switch (opcode) {
     case OpCode::Sleep: {
       operand = (op & 0x0fff);
-      Serial.print("SLEEP\t");
-      Serial.println(operand);
-
       delay(operand);
       break;
     }
 
     case OpCode::SetRed: {
-      Serial.print("RED\t");
-      Serial.println(operand);
-
-      analogWrite(PIN_R, operand);
+      analogWrite(PIN_R, operand & 0xff);
       break;
     }
 
     case OpCode::SetGreen: {
-      Serial.print("GREEN\t");
-      Serial.println(operand);
-
-      analogWrite(PIN_G, operand);
+      analogWrite(PIN_G, operand & 0xff);
       break;
     }
 
     case OpCode::SetBlue: {
-      Serial.print("BLUE\t");
-      Serial.println(operand);
-
-      analogWrite(PIN_B, operand);
+      analogWrite(PIN_B, operand & 0xff);
       break;
     }
 
